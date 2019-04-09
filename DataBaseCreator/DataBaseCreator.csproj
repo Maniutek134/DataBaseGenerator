@@ -146,13 +146,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="APIHandler.cs" />
+    <Compile Include="Temperature.cs" />
+    <Compile Include="TemperatureCollector.cs" />
     <Compile Include="IntensityCollector.cs" />
-    <Compile Include="Migrations\20190409201553_InitialCreate.cs" />
-    <Compile Include="Migrations\20190409201553_InitialCreate.designer.cs">
-      <DependentUpon>20190409201553_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\TestTempContextModelSnapshot.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

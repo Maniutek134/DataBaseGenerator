@@ -7,29 +7,7 @@ using Newtonsoft.Json;
 namespace DataBaseCreator
 {
 
-
-    public class Temp
-    {
-        public float airTemperature { get; set; }
-        public float surfaceTemperature { get; set; }
-        public float chemicalConcentration { get; set; }
-        public float visibility { get; set; }
-        public float waterIceThickness { get; set; }
-        public float windSpeed { get; set; }
-        public DateTime measureTime { get; set; }
-    }
-
-    public class APITemp : Temp
-    {
-        public int id { get; set; }
-        public int weatherStationId { get; set; }
-        public float strenghtWind { get; set; }
-        public float windDirection { get; set; }
-        public float dewPoint { get; set; }
-
-    }
-
-    class APIHandler
+    class TemperatureCollector
     {
         static HttpClient client = new HttpClient();
 
@@ -49,9 +27,9 @@ namespace DataBaseCreator
             return temps;
         }
 
-        public async Task<Temp> getCurrentTemp()
+        public async Task<Temperature> getCurrentTemp()
         {
-            Temp temp = new Temp();
+            Temperature temperature = new Temperature();
 
             float airTemperature = 0;
             float surfaceTemperature = 0;
@@ -63,7 +41,7 @@ namespace DataBaseCreator
 
             List<APITemp> temps = await getCurrentAPITemps();
 
-            foreach (Temp item in temps)
+            foreach (Temperature item in temps)
             {
                 airTemperature += item.airTemperature;
                 surfaceTemperature += item.surfaceTemperature;
@@ -74,17 +52,17 @@ namespace DataBaseCreator
             }
 
 
-            temp.airTemperature = airTemperature / temps.Count;
-            temp.surfaceTemperature = surfaceTemperature / temps.Count;
-            temp.chemicalConcentration = chemicalConcentration / temps.Count;
-            temp.visibility = visibility / temps.Count;
-            temp.waterIceThickness = waterIceThickness / temps.Count;
-            temp.windSpeed = windSpeed / temps.Count;
-            temp.measureTime = measureTime;
+            temperature.airTemperature = airTemperature / temps.Count;
+            temperature.surfaceTemperature = surfaceTemperature / temps.Count;
+            temperature.chemicalConcentration = chemicalConcentration / temps.Count;
+            temperature.visibility = visibility / temps.Count;
+            temperature.waterIceThickness = waterIceThickness / temps.Count;
+            temperature.windSpeed = windSpeed / temps.Count;
+            temperature.measureTime = measureTime;
 
             //Console.WriteLine(temp.airTemperature);
 
-            return temp;
+            return temperature;
         }
     }
 }

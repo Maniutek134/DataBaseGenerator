@@ -26,7 +26,7 @@ namespace DataBaseCreator
             return temps;
         }
 
-        public async Task<List<Traffic>> getCurrentTemp()
+        public async Task<List<Traffic>> getCurrentTraffic()
         {
             var tempTraffic = new List<FullTraffic>();
             var traffic = new List<Traffic>();

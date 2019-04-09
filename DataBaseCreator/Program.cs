@@ -14,7 +14,7 @@ namespace DataBaseCreator
             {
                 await RunAsync();
 
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(10000);
             }
              
         }
@@ -23,11 +23,11 @@ namespace DataBaseCreator
         {
             using (var db = new TestTempContext())
             {
-                APIHandler apiHandler = new APIHandler();
-                Temp temp = await apiHandler.getCurrentTemp();
-                var testTemp = new TestTemp
+                TemperatureCollector temperatureCollector = new TemperatureCollector();
+                Temperature temp = await temperatureCollector.getCurrentTemp();
+
+                var dbEntityTemp = new DBTemperature
                 {
-                    //id = 1,
                     airTemperature = temp.airTemperature,
                     surfaceTemperature = temp.surfaceTemperature,
                     chemicalConcentration = temp.chemicalConcentration,
@@ -37,22 +37,21 @@ namespace DataBaseCreator
                     measureTime = temp.measureTime
 
                 };
-                db.Temp.Add(testTemp);
+
+                db.Temperature.Add(dbEntityTemp);
 
                 IntensityCollector intensityCollector = new IntensityCollector();
-                List<Traffic> traffics = await intensityCollector.getCurrentTemp();
+                List<Traffic> traffics = await intensityCollector.getCurrentTraffic();
 
 
                 foreach (Traffic traffic in traffics)
                 {
-                    db.Intensity.Add(new TrafficIntensity
+                    db.Intensity.Add(new DBTrafficIntensity
                     {
-                        //id = 1,
                         roadSegmentId = traffic.roadSegmentId,
                         intenstiy = traffic.intensity,
                         measureTime = traffic.measureTime,
-                       
-                        TestTemp = testTemp 
+                        DBTemperature = dbEntityTemp
                     });
                     
                 }

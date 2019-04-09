@@ -11,16 +11,16 @@ namespace DataBaseCreator
 {
     public class TestTempContext : DbContext
     {
-        public DbSet<TestTemp> Temp { get; set; }
-        public DbSet<TrafficIntensity> Intensity { get; set; }
+        public DbSet<DBTemperature> Temperature { get; set; }
+        public DbSet<DBTrafficIntensity> Intensity { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-QUBV4T1;Database=TemperatureTest;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@"Server=DESKTOP-DELKC8L;Database=DataBaseGdynia;Trusted_Connection=True;");
         }
     }
 
-    public class TestTemp
+    public class DBTemperature
     {  
         public int id { get; set; }
         public float airTemperature { get; set; }
@@ -31,18 +31,17 @@ namespace DataBaseCreator
         public float windSpeed { get; set; }
         public DateTime measureTime { get; set; } 
 
-        public ICollection<TrafficIntensity> TrafficIntensity { get; set; }
+        public ICollection<DBTrafficIntensity> DBTrafficIntensity { get; set; }
     }
 
-    public class TrafficIntensity
+    public class DBTrafficIntensity
     {
         public int id { get; set; }
         public int roadSegmentId { get; set; }
         public float intenstiy { get; set; }
         public DateTime measureTime { get; set; }
-       // [ForeignKey("TestTemp")]
         public int TestTempID { get; set; }
 
-        public  TestTemp TestTemp { get; set; }
+        public DBTemperature DBTemperature { get; set; }
     }
 }
