@@ -10,10 +10,11 @@ namespace DataBaseCreator
     public class TestTempContext : DbContext
     {
         public DbSet<TestTemp> Temp { get; set; }
+        public DbSet<TrafficIntensity> Intensity { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-DELKC8L;Database=TemperatureTest;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@"Server=DESKTOP-QUBV4T1;Database=TemperatureTest;Trusted_Connection=True;");
         }
     }
 
@@ -26,6 +27,14 @@ namespace DataBaseCreator
         public float visibility { get; set; }
         public float waterIceThickness { get; set; }
         public float windSpeed { get; set; }
+        public DateTime measureTime { get; set; }
+    }
+
+    public class TrafficIntensity
+    {
+        public int id { get; set; }
+        public int roadSegmentId { get; set; }
+        public float intenstiy { get; set; }
         public DateTime measureTime { get; set; }
     }
 }

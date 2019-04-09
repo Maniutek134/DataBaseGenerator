@@ -14,7 +14,7 @@ namespace DataBaseCreator
             {
                 await RunAsync();
 
-                System.Threading.Thread.Sleep(600000);
+                System.Threading.Thread.Sleep(1000);
             }
              
         }
@@ -31,7 +31,7 @@ namespace DataBaseCreator
                     //id = 1,
                     airTemperature = temp.airTemperature,
                     surfaceTemperature = temp.surfaceTemperature,
-                    chemicalConcentration =temp.chemicalConcentration,
+                    chemicalConcentration = temp.chemicalConcentration,
                     visibility = temp.visibility,
                     waterIceThickness = temp.waterIceThickness,
                     windSpeed = temp.windSpeed,
@@ -39,9 +39,27 @@ namespace DataBaseCreator
 
                 });
 
+                IntensityCollector intensityCollector = new IntensityCollector();
+                List<Traffic> traffics = await intensityCollector.getCurrentTemp();
+
+
+                foreach (Traffic traffic in traffics)
+                {
+                    db.Intensity.Add(new TrafficIntensity
+                    {
+                        //id = 1,
+                        roadSegmentId = traffic.roadSegmentId,
+                        intenstiy = traffic.intensity,
+                        measureTime = traffic.measureTime
+                    });
+                    
+                }
 
                 var count = db.SaveChanges();
                 Console.WriteLine("{0} records saved to database", count);
+
+
+
             }
 
 
