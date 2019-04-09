@@ -25,8 +25,7 @@ namespace DataBaseCreator
             {
                 APIHandler apiHandler = new APIHandler();
                 Temp temp = await apiHandler.getCurrentTemp();
-
-                db.Temp.Add(new TestTemp
+                var testTemp = new TestTemp
                 {
                     //id = 1,
                     airTemperature = temp.airTemperature,
@@ -37,7 +36,8 @@ namespace DataBaseCreator
                     windSpeed = temp.windSpeed,
                     measureTime = temp.measureTime
 
-                });
+                };
+                db.Temp.Add(testTemp);
 
                 IntensityCollector intensityCollector = new IntensityCollector();
                 List<Traffic> traffics = await intensityCollector.getCurrentTemp();
@@ -50,7 +50,9 @@ namespace DataBaseCreator
                         //id = 1,
                         roadSegmentId = traffic.roadSegmentId,
                         intenstiy = traffic.intensity,
-                        measureTime = traffic.measureTime
+                        measureTime = traffic.measureTime,
+                       
+                        TestTemp = testTemp 
                     });
                     
                 }
