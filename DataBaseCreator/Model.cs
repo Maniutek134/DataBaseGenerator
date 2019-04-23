@@ -11,7 +11,7 @@ namespace DataBaseCreator
 {
     public class TestTempContext : DbContext
     {
-        public DbSet<DBTemperature> Temperature { get; set; }
+        public DbSet<DBWeatherCondition> WeatherCondition { get; set; }
         public DbSet<DBTrafficIntensity> Intensity { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -20,18 +20,17 @@ namespace DataBaseCreator
         }
     }
 
-    public class DBTemperature
+    public class DBWeatherCondition
     {  
         public int id { get; set; }
-        public float airTemperature { get; set; }
-        public float surfaceTemperature { get; set; }
-        public float chemicalConcentration { get; set; }
-        public float visibility { get; set; }
-        public float waterIceThickness { get; set; }
+        public float temperature { get; set; }
+        public float pressure { get; set; }
+        public float humidity { get; set; }
+        public int visibility { get; set; }
         public float windSpeed { get; set; }
-        public DateTime measureTime { get; set; } 
-
-        public ICollection<DBTrafficIntensity> DBTrafficIntensity { get; set; }
+        public float windDeg { get; set; }
+        public DateTime measureTime { get; set; }
+        public ICollection<DBTrafficIntensity> dbTrafficIntensity { get; set; }
     }
 
     public class DBTrafficIntensity
@@ -40,8 +39,6 @@ namespace DataBaseCreator
         public int roadSegmentId { get; set; }
         public float intenstiy { get; set; }
         public DateTime measureTime { get; set; }
-        public int TestTempID { get; set; }
-
-        public DBTemperature DBTemperature { get; set; }
+        public DBWeatherCondition dbTemperature { get; set; }
     }
 }

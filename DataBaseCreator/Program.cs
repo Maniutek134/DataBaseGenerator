@@ -10,12 +10,19 @@ namespace DataBaseCreator
     {
         async static Task Main(string[] args)
         {
-            for(int i=0; i<6; i++)
-            {
+            //for(int i=0; i<6; i++)
+            //{
+            //    await RunAsync();
+
+            //    System.Threading.Thread.Sleep(300000);
+            //}
+
+            
+            while (DateTime.Now.Day <= 27) {
                 await RunAsync();
 
-                System.Threading.Thread.Sleep(10000);
-            }
+                System.Threading.Thread.Sleep(300000);
+           }
              
         }
 
@@ -23,22 +30,22 @@ namespace DataBaseCreator
         {
             using (var db = new TestTempContext())
             {
-                TemperatureCollector temperatureCollector = new TemperatureCollector();
-                Temperature temp = await temperatureCollector.getCurrentTemp();
+                WeatherConditionCollector weatherConditionCollector = new WeatherConditionCollector();
+                WeatherConditon wetherCondition = await weatherConditionCollector.getCurrentWeatherCondition();
 
-                var dbEntityTemp = new DBTemperature
+                var dbEntityWeatherCondition = new DBWeatherCondition
                 {
-                    airTemperature = temp.airTemperature,
-                    surfaceTemperature = temp.surfaceTemperature,
-                    chemicalConcentration = temp.chemicalConcentration,
-                    visibility = temp.visibility,
-                    waterIceThickness = temp.waterIceThickness,
-                    windSpeed = temp.windSpeed,
-                    measureTime = temp.measureTime
+                    temperature = wetherCondition.temp,
+                    pressure = wetherCondition.pressure,
+                    humidity = wetherCondition.humidity,
+                    visibility = wetherCondition.visibility,
+                    windSpeed = wetherCondition.windSpeed,
+                    windDeg = wetherCondition.windDeg,
+                    measureTime = wetherCondition.measureTime
 
                 };
 
-                db.Temperature.Add(dbEntityTemp);
+                db.WeatherCondition.Add(dbEntityWeatherCondition);
 
                 IntensityCollector intensityCollector = new IntensityCollector();
                 List<Traffic> traffics = await intensityCollector.getCurrentTraffic();
@@ -51,15 +58,13 @@ namespace DataBaseCreator
                         roadSegmentId = traffic.roadSegmentId,
                         intenstiy = traffic.intensity,
                         measureTime = traffic.measureTime,
-                        DBTemperature = dbEntityTemp
+                        dbTemperature = dbEntityWeatherCondition
                     });
-                    
+
                 }
 
                 var count = db.SaveChanges();
                 Console.WriteLine("{0} records saved to database", count);
-
-
 
             }
 
